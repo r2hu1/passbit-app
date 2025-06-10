@@ -5,11 +5,10 @@ export const storeData = async ({
   value,
 }: {
   key: string;
-  value: any;
+  value: string;
 }) => {
   try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem(key, jsonValue);
+    await AsyncStorage.setItem(key, value);
     return true;
   } catch (e: any) {
     return e.message;
@@ -18,8 +17,8 @@ export const storeData = async ({
 
 export const getData = async ({ key }: { key: string }) => {
   try {
-    const jsonValue = await AsyncStorage.getItem(key);
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
+    const value = await AsyncStorage.getItem(key);
+    return value;
   } catch (e: any) {
     return e.message;
   }
