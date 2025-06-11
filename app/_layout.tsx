@@ -18,7 +18,7 @@ import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from "react-native-safe-area-context";
-import { getData } from "~/lib/storage/fn";
+import { getData, removeData } from "~/lib/storage/fn";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -37,16 +37,18 @@ const usePlatformSpecificSetup = Platform.select({
   default: noop,
 });
 
-export default async function RootLayout() {
+export default function RootLayout() {
   usePlatformSpecificSetup();
   const { isDarkColorScheme } = useColorScheme();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const fetchLoginStatus = async () => {
+  const [isLoggedIn, setIsLoggedIn] = React.useState("");
+  const getToken = async () => {
     const token = await getData({ key: "token" });
     setIsLoggedIn(token);
+    await removeData({ key: "token" });
   };
-  useEffect(() => {
-    fetchLoginStatus();
+
+  React.useEffect(() => {
+    getToken();
   }, []);
 
   return (
@@ -55,48 +57,28 @@ export default async function RootLayout() {
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
         <Stack screenOptions={{ headerShown: false }}>
           {!isLoggedIn && (
-            <>
-              <Stack.Screen
-                name="(auth)/welcome"
-                options={{
-                  animation: "simple_push",
-                }}
-              />
-              <Stack.Screen
-                name="(auth)/login"
-                options={{
-                  animation: "simple_push",
-                }}
-              />
-              <Stack.Screen
-                name="(auth)/register"
-                options={{
-                  animation: "simple_push",
-                }}
-              />
-            </>
+            <Stack.Screen
+              name="(auth)/welcome"
+              options={{
+                animation: "simple_push",
+              }}
+            />
           )}
-          {isLoggedIn && (
-            <>
-              <Stack.Screen
-                name="(dashboard)/dashboard"
-                options={{
-                  animation: "simple_push",
-                }}
-              />
-              <Stack.Screen
-                name="(dashboard)/settings"
-                options={{
-                  animation: "simple_push",
-                }}
-              />
-              <Stack.Screen
-                name="(dashboard)/profile"
-                options={{
-                  animation: "simple_push",
-                }}
-              />
-            </>
+          {!isLoggedIn && (
+            <Stack.Screen
+              name="(auth)/login"
+              options={{
+                animation: "simple_push",
+              }}
+            />
+          )}
+          {!isLoggedIn && (
+            <Stack.Screen
+              name="(auth)/register"
+              options={{
+                animation: "simple_push",
+              }}
+            />
           )}
         </Stack>
         <PortalHost />

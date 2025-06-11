@@ -53,7 +53,6 @@ export default function Welcome() {
         entering={FadeInDown.duration(500).delay(700)}
         className="absolute bottom-14 px-8 w-full"
       >
-        {/* <Link href="/(auth)/login" asChild> */}
         <Link href="/(auth)/login" asChild>
           <Button size="lg" className="rounded-full">
             <Text className="text-center text-primary-foreground w-full">

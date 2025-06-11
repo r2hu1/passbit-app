@@ -1,11 +1,88 @@
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { Link, useRouter } from "expo-router";
+import { useState } from "react";
+import { Text, ToastAndroid, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { loginUser, registerUser } from "~/lib/api";
+import { storeData } from "~/lib/storage/fn";
 
 export default function Register() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleRegister = async () => {
+    if (!email) {
+      ToastAndroid.show("Email is required!", ToastAndroid.SHORT);
+      setError("Email is required!");
+      return;
+    }
+    if (!password) {
+      ToastAndroid.show("Password is required!", ToastAndroid.SHORT);
+      setError("Password is required!");
+      return;
+    }
+    if (password.length < 8) {
+      ToastAndroid.show(
+        "Password must be at least 8 characters!",
+        ToastAndroid.SHORT,
+      );
+      setError("Password must be at least 8 characters!");
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      ToastAndroid.show(
+        "Password must contain at least one uppercase letter!",
+        ToastAndroid.SHORT,
+      );
+      setError("Password must contain at least one uppercase letter!");
+      return;
+    }
+    if (!/[a-z]/.test(password)) {
+      ToastAndroid.show(
+        "Password must contain at least one lowercase letter!",
+        ToastAndroid.SHORT,
+      );
+      setError("Password must contain at least one lowercase letter!");
+      return;
+    }
+    if (!/[0-9]/.test(password)) {
+      ToastAndroid.show(
+        "Password must contain at least one number!",
+        ToastAndroid.SHORT,
+      );
+      setError("Password must contain at least one number!");
+      return;
+    }
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+      ToastAndroid.show(
+        "Password must contain at least one special character!",
+        ToastAndroid.SHORT,
+      );
+      setError("Password must contain at least one special character!");
+      return;
+    }
+    try {
+      const res = await registerUser(email, password);
+      if (res.statusCode === 200) {
+        ToastAndroid.show("Registration successful!", ToastAndroid.SHORT);
+        ToastAndroid.show("Logging in...", ToastAndroid.SHORT);
+        const lgin = await loginUser(email, password);
+        if (!lgin?.error) {
+          storeData({ key: "token", value: res.token });
+          // router.push("/(dashboard)/dashboard");
+        }
+      }
+    } catch (error: any) {
+      if (error.response.data.statusMessage == "Email already exists") {
+        ToastAndroid.show("Email Already Exists!", ToastAndroid.SHORT);
+      }
+    }
+  };
+
   return (
     <SafeAreaView edges={["top", "bottom"]} className="h-full py-10 relative">
       <View className="px-8 pt-10">
@@ -19,29 +96,36 @@ export default function Register() {
       <View className="grid gap-3 px-8 mt-10">
         <Label>Email</Label>
         <Input
+          value={email}
+          onChangeText={setEmail}
           textContentType="emailAddress"
           placeholder="name@domain.com"
           id="email"
         />
         <Label className="mt-2">Password</Label>
         <Input
+          value={password}
+          onChangeText={setPassword}
           secureTextEntry
           textContentType="password"
-          placeholder="yourpassword"
+          placeholder="your password"
           id="password"
         />
-        <Link href="/welcome" className="text-right text-sm text-foreground/70">
-          Forgot Password?
-        </Link>
+        {error && <Text className="text-red-500 text-sm">{error}</Text>}
       </View>
       <View className="absolute bottom-14 px-8 grid gap-4 w-full">
         <Text className="text-foreground/80 text-center">
           Already have an account?{" "}
-          <Link href="/(auth)/login" className="text-foreground">
+          <Text
+            className="text-foreground"
+            onPress={() => {
+              router.back();
+            }}
+          >
             Login!
-          </Link>
+          </Text>
         </Text>
-        <Button size="lg" className="rounded-full">
+        <Button onPress={handleRegister} size="lg" className="rounded-full">
           <Text className="text-primary-foreground">Continue</Text>
         </Button>
       </View>

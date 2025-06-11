@@ -24,7 +24,7 @@ export const getData = async ({ key }: { key: string }) => {
   }
 };
 
-export const removeValue = async ({ key }: { key: string }) => {
+export const removeData = async ({ key }: { key: string }) => {
   try {
     await AsyncStorage.removeItem(key);
     return true;

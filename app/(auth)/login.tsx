@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { FormEvent, useState } from "react";
 import { Text, View } from "react-native";
 import Animated, { FadeInLeft, FadeInRight } from "react-native-reanimated";
@@ -8,11 +8,13 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { loginUser } from "~/lib/api";
 import { storeData } from "~/lib/storage/fn";
+import { ToastAndroid, Alert } from "react-native";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<{ email?: string; password?: string }>({});
+  const router = useRouter();
 
   const handleLogin = async () => {
     if (!email || !email.includes("@") || !email.includes(".")) {
@@ -26,10 +28,20 @@ export default function Login() {
     setError({});
     try {
       const res = await loginUser(email, password);
-      console.log(res);
-      storeData({ key: "token", value: res.token });
+      if (!res?.error) {
+        storeData({ key: "token", value: res.token });
+        // router.push("/(dashboard)/dashboard");
+      }
     } catch (error: any) {
-      // catch
+      if (error.response.data.statusMessage == "User not found") {
+        setError({ password: "Invalid email or password!" });
+        Alert.alert(
+          "Invalid email or password!",
+          "Please check your credentials.",
+          [{ text: "OK", onPress: () => setError({}) }],
+        );
+        ToastAndroid.show("Invalid email or password!", ToastAndroid.SHORT);
+      }
     }
   };
 
@@ -53,10 +65,7 @@ export default function Login() {
           id="email"
         />
         {error?.email && (
-          <Animated.Text
-            entering={FadeInLeft.duration(500)}
-            className="text-red-400 text-sm"
-          >
+          <Animated.Text className="text-red-400 text-sm">
             {error?.email}
           </Animated.Text>
         )}
@@ -70,10 +79,7 @@ export default function Login() {
           id="password"
         />
         {error?.password && (
-          <Animated.Text
-            entering={FadeInLeft.duration(500)}
-            className="text-red-400 text-sm"
-          >
+          <Animated.Text className="text-red-400 text-sm">
             {error?.password}
           </Animated.Text>
         )}
