@@ -1,6 +1,13 @@
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, ToastAndroid, View } from "react-native";
+import {
+  ActivityIndicator,
+  ActivityIndicatorBase,
+  Alert,
+  Text,
+  ToastAndroid,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -13,9 +20,10 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (!email) {
+    if (!email || !email.includes("@")) {
       ToastAndroid.show("Email is required!", ToastAndroid.SHORT);
       setError("Email is required!");
       return;
@@ -65,21 +73,30 @@ export default function Register() {
       setError("Password must contain at least one special character!");
       return;
     }
+    setError("");
+    setLoading(true);
     try {
       const res = await registerUser(email, password);
       if (res.statusCode === 200) {
-        ToastAndroid.show("Registration successful!", ToastAndroid.SHORT);
-        ToastAndroid.show("Logging in...", ToastAndroid.SHORT);
+        ToastAndroid.show("Sending OTP..", ToastAndroid.SHORT);
         const lgin = await loginUser(email, password);
-        if (!lgin?.error) {
-          storeData({ key: "token", value: res.token });
-          // router.push("/(dashboard)/dashboard");
+        console.log(lgin);
+        if (!lgin.error) {
+          await storeData({ key: "token", value: lgin.token });
+          router.push("/(auth)/verify");
         }
       }
     } catch (error: any) {
-      if (error.response.data.statusMessage == "Email already exists") {
+      if (error.response.data.statusMessage) {
         ToastAndroid.show("Email Already Exists!", ToastAndroid.SHORT);
+        Alert.alert(
+          "Email Already Exists!",
+          "Please try again with a different email.",
+          [{ text: "OK", onPress: () => {} }],
+        );
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -125,8 +142,17 @@ export default function Register() {
             Login!
           </Text>
         </Text>
-        <Button onPress={handleRegister} size="lg" className="rounded-full">
-          <Text className="text-primary-foreground">Continue</Text>
+        <Button
+          disabled={loading}
+          onPress={handleRegister}
+          size="lg"
+          className="rounded-full"
+        >
+          {loading ? (
+            <ActivityIndicator className="text-primary-foreground" />
+          ) : (
+            <Text className="text-primary-foreground">Continue</Text>
+          )}
         </Button>
       </View>
     </SafeAreaView>

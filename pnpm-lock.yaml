@@ -44,6 +44,9 @@ importers:
       expo:
         specifier: ^53.0.9
         version: 53.0.11(@babel/core@7.27.4)(@expo/metro-runtime@5.0.4(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0)))(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      expo-font:
+        specifier: ~13.3.1
+        version: 13.3.1(expo@53.0.11(@babel/core@7.27.4)(@expo/metro-runtime@5.0.4(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0)))(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react@19.0.0)
       expo-linking:
         specifier: ~7.1.5
         version: 7.1.5(expo@53.0.11(@babel/core@7.27.4)(@expo/metro-runtime@5.0.4(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0)))(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -54,7 +57,7 @@ importers:
         specifier: ~5.0.7
         version: 5.0.7(54bda72c0cabbb5eeff0e400ec5d223e)
       expo-splash-screen:
-        specifier: ~0.30.8
+        specifier: ~0.30.9
         version: 0.30.9(expo@53.0.11(@babel/core@7.27.4)(@expo/metro-runtime@5.0.4(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0)))(react-native@0.79.3(@babel/core@7.27.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))
       expo-status-bar:
         specifier: ~2.2.3

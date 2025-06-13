@@ -1,6 +1,6 @@
 import { Link, useRouter } from "expo-router";
 import { FormEvent, useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import Animated, { FadeInLeft, FadeInRight } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "~/components/ui/button";
@@ -15,6 +15,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<{ email?: string; password?: string }>({});
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !email.includes("@") || !email.includes(".")) {
@@ -26,14 +27,16 @@ export default function Login() {
       return;
     }
     setError({});
+    setLoading(true);
     try {
       const res = await loginUser(email, password);
       if (!res?.error) {
         storeData({ key: "token", value: res.token });
-        // router.push("/(dashboard)/dashboard");
+        ToastAndroid.show("Login successful!", ToastAndroid.SHORT);
+        router.push("/(auth)/verify");
       }
     } catch (error: any) {
-      if (error.response.data.statusMessage == "User not found") {
+      if (error.response.data.statusMessage) {
         setError({ password: "Invalid email or password!" });
         Alert.alert(
           "Invalid email or password!",
@@ -42,6 +45,8 @@ export default function Login() {
         );
         ToastAndroid.show("Invalid email or password!", ToastAndroid.SHORT);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,8 +99,17 @@ export default function Login() {
             Register!
           </Link>
         </Text>
-        <Button onPress={handleLogin} size="lg" className="rounded-full">
-          <Text className="text-primary-foreground">Continue</Text>
+        <Button
+          disabled={loading}
+          onPress={handleLogin}
+          size="lg"
+          className="rounded-full"
+        >
+          {loading ? (
+            <ActivityIndicator className="text-primary-foreground" />
+          ) : (
+            <Text className="text-primary-foreground">Continue</Text>
+          )}
         </Button>
       </View>
     </SafeAreaView>

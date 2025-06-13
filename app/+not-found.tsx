@@ -1,14 +1,15 @@
 import { Link, Stack } from "expo-router";
 import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "~/components/ui/text";
 
 export default function NotFoundScreen() {
   return (
-    <View>
+    <SafeAreaView className="flex items-center justify-center flex-row">
       <Text>This screen doesn't exist.</Text>
       <Link href="/">
         <Text>Go to home screen!</Text>
       </Link>
-    </View>
+    </SafeAreaView>
   );
 }
