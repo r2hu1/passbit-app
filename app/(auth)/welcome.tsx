@@ -18,32 +18,35 @@ export default function Welcome() {
         {slogan.map((word, index) => (
           <Animated.Text
             key={index}
-            style={{ fontSize: 55, fontWeight: "bold" }}
             entering={FadeInLeft.duration(500).delay(index * 200)}
-            className="text-foreground"
+            className="text-foreground text-[55px] leading-tight font-rubik-bold"
           >
             {word}
           </Animated.Text>
         ))}
         <Animated.Text
-          entering={FadeInLeft.duration(500).delay(500)}
-          className="text-lg text-foreground leading-relaxed mt-4 mb-4"
+          entering={FadeInLeft.duration(500).delay(600)}
+          className="text-lg text-foreground font-rubik mt-4 mb-4"
         >
           An open-source password manager focused on security and privacy.
-          Protect your passwords with advanced encryption.
+          Protects your passwords with advance encryption.
         </Animated.Text>
         <Animated.View
           entering={FadeInUp.duration(500).delay(600)}
           className="flex flex-row gap-3"
         >
           <Badge variant="outline">
-            <Text className="text-foreground/90 text-sm"># Open-Source</Text>
+            <Text className="text-foreground/90 font-rubik text-sm">
+              # Open-Source
+            </Text>
           </Badge>
           <Badge variant="outline">
-            <Text className="text-foreground/90 text-sm"># Free</Text>
+            <Text className="text-foreground/90 font-rubik text-sm">
+              # Free
+            </Text>
           </Badge>
           <Badge variant="outline">
-            <Text className="text-foreground/90 text-sm">
+            <Text className="text-foreground/90 font-rubik text-sm">
               # End-To-End Encrypted
             </Text>
           </Badge>
@@ -53,9 +56,9 @@ export default function Welcome() {
         entering={FadeInDown.duration(500).delay(700)}
         className="absolute bottom-14 px-8 w-full"
       >
-        <Link href="/(auth)/login" asChild>
+        <Link href="/login" asChild>
           <Button size="lg" className="rounded-full">
-            <Text className="text-center text-primary-foreground w-full">
+            <Text className="font-rubik text-center text-primary-foreground w-full">
               Get Started
             </Text>
           </Button>

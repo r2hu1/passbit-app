@@ -1,8 +1,7 @@
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
-  ActivityIndicatorBase,
   Alert,
   Text,
   ToastAndroid,
@@ -83,7 +82,7 @@ export default function Register() {
         console.log(lgin);
         if (!lgin.error) {
           await storeData({ key: "token", value: lgin.token });
-          router.push("/(auth)/verify");
+          router.push("/verify");
         }
       }
     } catch (error: any) {
@@ -103,10 +102,10 @@ export default function Register() {
   return (
     <SafeAreaView edges={["top", "bottom"]} className="h-full py-10 relative">
       <View className="px-8 pt-10">
-        <Text className="text-3xl font-bold text-foreground">
+        <Text className="font-rubik text-3xl font-bold text-foreground">
           Great To Have You!
         </Text>
-        <Text className="text-lg mt-3 text-foreground">
+        <Text className="font-rubik text-lg mt-3 text-foreground">
           Get started by creating your secure account!
         </Text>
       </View>
@@ -128,10 +127,12 @@ export default function Register() {
           placeholder="your password"
           id="password"
         />
-        {error && <Text className="text-red-500 text-sm">{error}</Text>}
+        {error && (
+          <Text className="text-red-500 text-sm font-rubik">{error}</Text>
+        )}
       </View>
       <View className="absolute bottom-14 px-8 grid gap-4 w-full">
-        <Text className="text-foreground/80 text-center">
+        <Text className="text-foreground/80 text-center font-rubik">
           Already have an account?{" "}
           <Text
             className="text-foreground"
@@ -151,7 +152,7 @@ export default function Register() {
           {loading ? (
             <ActivityIndicator className="text-primary-foreground" />
           ) : (
-            <Text className="text-primary-foreground">Continue</Text>
+            <Text className="text-primary-foreground font-rubik">Continue</Text>
           )}
         </Button>
       </View>

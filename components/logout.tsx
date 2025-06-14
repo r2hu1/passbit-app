@@ -1,6 +1,7 @@
 import { useAuthState } from "~/hooks/use-auth-state";
 import { Text } from "./ui/text";
 import { useRouter } from "expo-router";
+import { cn } from "~/lib/utils";
 
 export default function Logout({
   text,
@@ -17,7 +18,7 @@ export default function Logout({
   };
 
   return (
-    <Text className={className} onPress={handleLogout}>
+    <Text className={cn(className, "font-rubik")} onPress={handleLogout}>
       {text}
     </Text>
   );

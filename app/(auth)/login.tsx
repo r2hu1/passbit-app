@@ -1,7 +1,6 @@
 import { Link, useRouter } from "expo-router";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import Animated, { FadeInLeft, FadeInRight } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -33,7 +32,7 @@ export default function Login() {
       if (!res?.error) {
         storeData({ key: "token", value: res.token });
         ToastAndroid.show("Login successful!", ToastAndroid.SHORT);
-        router.push("/(auth)/verify");
+        router.push("/verify");
       }
     } catch (error: any) {
       if (error.response.data.statusMessage) {
@@ -53,10 +52,10 @@ export default function Login() {
   return (
     <SafeAreaView edges={["top", "bottom"]} className="h-full py-10 relative">
       <View className="px-8 pt-10">
-        <Text className="text-3xl font-bold text-foreground">
+        <Text className="text-3xl font-rubik-bold text-foreground">
           Welcome Back!
         </Text>
-        <Text className="text-lg mt-3 text-foreground">
+        <Text className="text-lg mt-3 font-rubik text-foreground">
           Login to your account to continue using Passbit!
         </Text>
       </View>
@@ -70,9 +69,7 @@ export default function Login() {
           id="email"
         />
         {error?.email && (
-          <Animated.Text className="text-red-400 text-sm">
-            {error?.email}
-          </Animated.Text>
+          <Text className="text-red-400 text-sm">{error?.email}</Text>
         )}
         <Label className="mt-2">Password</Label>
         <Input
@@ -84,18 +81,21 @@ export default function Login() {
           id="password"
         />
         {error?.password && (
-          <Animated.Text className="text-red-400 text-sm">
+          <Text className="text-red-400 text-sm font-rubik">
             {error?.password}
-          </Animated.Text>
+          </Text>
         )}
-        <Link href="/welcome" className="text-right text-sm text-foreground/70">
+        <Link
+          href="/forgot"
+          className="text-right font-rubik text-sm text-foreground/70"
+        >
           Forgot Password?
         </Link>
       </View>
       <View className="absolute bottom-14 px-8 grid gap-4 w-full">
-        <Text className="text-foreground/80 text-center">
+        <Text className="text-foreground/80 text-center font-rubik">
           Don't have an account?{" "}
-          <Link href="/(auth)/register" className="text-foreground">
+          <Link href="/register" className="text-foreground">
             Register!
           </Link>
         </Text>

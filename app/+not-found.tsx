@@ -7,7 +7,7 @@ export default function NotFoundScreen() {
   return (
     <SafeAreaView className="flex items-center justify-center flex-row">
       <Text>This screen doesn't exist.</Text>
-      <Link href="/">
+      <Link href="/(auth)/welcome">
         <Text>Go to home screen!</Text>
       </Link>
     </SafeAreaView>

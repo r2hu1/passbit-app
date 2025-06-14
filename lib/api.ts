@@ -19,3 +19,21 @@ export const sendVerificationEmail = async () => {
   const res = await privateAPI.get("/email/send-otp");
   return res.data;
 };
+
+export const sendResetPasswordEmail = async (email: string) => {
+  const res = await publicAPI.post("/auth/forgot-password", { email });
+  return res.data;
+};
+
+export const resetPassword = async (
+  email: string,
+  otp: string,
+  newPassword: string,
+) => {
+  const res = await publicAPI.post("/auth/reset-password", {
+    email,
+    otp,
+    newPassword,
+  });
+  return res.data;
+};
