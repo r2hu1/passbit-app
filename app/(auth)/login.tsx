@@ -31,7 +31,6 @@ export default function Login() {
       const res = await loginUser(email, password);
       if (!res?.error) {
         storeData({ key: "token", value: res.token });
-        ToastAndroid.show("Login successful!", ToastAndroid.SHORT);
         router.push("/verify");
       }
     } catch (error: any) {

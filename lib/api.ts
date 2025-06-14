@@ -37,3 +37,8 @@ export const resetPassword = async (
   });
   return res.data;
 };
+
+export const getSavedVaults = async () => {
+  const res = await privateAPI.get("/user/vault/get");
+  return res.data;
+};

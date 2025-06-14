@@ -14,9 +14,6 @@ export default function Settings() {
           <Button className="w-fit rounded-full">
             <Logout text="Sign Out" className="text-sm" />
           </Button>
-          <Button className="w-fit rounded-full" variant="secondary">
-            <Text className="text-sm">Change Password</Text>
-          </Button>
         </View>
       </View>
     </SafeAreaView>

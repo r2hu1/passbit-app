@@ -99,7 +99,7 @@ export default function Forgot() {
     setLoading(true);
     try {
       const otp = code;
-      const res = await resetPassword(email, otp, newPassword);
+      const res = await resetPassword(email, String(otp), newPassword);
       ToastAndroid.show("Password reset successful!", ToastAndroid.SHORT);
       Alert.alert("Success", "Password reset successful!", [
         {

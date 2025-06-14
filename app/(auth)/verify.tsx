@@ -37,13 +37,13 @@ export default function Verify() {
     }
     setLoading(true);
     try {
-      const res = await verifyEmail(code);
+      const res = await verifyEmail(String(code));
       if (res.statusCode == 200) {
         await storeData({ key: "status", value: "verified" });
         router.push("/(root)/home");
       }
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       Alert.alert("Invalid OTP", error.message.data?.statusMessage);
       ToastAndroid.show("Invalid OTP", ToastAndroid.SHORT);
     } finally {
