@@ -31,7 +31,7 @@ export default function Login() {
       const res = await loginUser(email, password);
       if (!res?.error) {
         storeData({ key: "token", value: res.token });
-        router.push("/verify");
+        router.push("/(auth)/verify");
       }
     } catch (error: any) {
       if (error.response.data.statusMessage) {
@@ -85,7 +85,7 @@ export default function Login() {
           </Text>
         )}
         <Link
-          href="/forgot"
+          href="/(auth)/forgot"
           className="text-right font-rubik text-sm text-foreground/70"
         >
           Forgot Password?
@@ -94,7 +94,7 @@ export default function Login() {
       <View className="absolute bottom-14 px-8 grid gap-4 w-full">
         <Text className="text-foreground/80 text-center font-rubik">
           Don't have an account?{" "}
-          <Link href="/register" className="text-foreground">
+          <Link href="/(auth)/register" className="text-foreground">
             Register!
           </Link>
         </Text>

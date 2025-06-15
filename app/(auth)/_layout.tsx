@@ -8,7 +8,7 @@ export default function RootLayout() {
     return <Redirect href="/(root)/home" />;
   }
   if (user && !status) {
-    return <Redirect href="/verify" />;
+    return <Redirect href="/(auth)/verify" />;
   }
   return (
     <Stack screenOptions={{ headerShown: false }}>

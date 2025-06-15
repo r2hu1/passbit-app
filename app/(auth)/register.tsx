@@ -82,7 +82,7 @@ export default function Register() {
         console.log(lgin);
         if (!lgin.error) {
           await storeData({ key: "token", value: lgin.token });
-          router.push("/verify");
+          router.push("/(auth)/verify");
         }
       }
     } catch (error: any) {

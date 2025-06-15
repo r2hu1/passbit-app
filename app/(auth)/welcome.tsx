@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import Animated, {
   FadeInDown,
@@ -12,6 +12,7 @@ import { Button } from "~/components/ui/button";
 const slogan = ["Open Source", "Password", "Manager", "That Works!"];
 
 export default function Welcome() {
+  const router = useRouter();
   return (
     <SafeAreaView className="h-full relative" edges={["bottom", "top"]}>
       <View className="px-8 py-10">
@@ -56,13 +57,15 @@ export default function Welcome() {
         entering={FadeInDown.duration(500).delay(700)}
         className="absolute bottom-14 px-8 w-full"
       >
-        <Link href="/login" asChild>
-          <Button size="lg" className="rounded-full">
-            <Text className="font-rubik text-center text-primary-foreground w-full">
-              Get Started
-            </Text>
-          </Button>
-        </Link>
+        <Button
+          onPress={() => router.push("/(auth)/login")}
+          size="lg"
+          className="rounded-full"
+        >
+          <Text className="font-rubik text-center text-primary-foreground w-full">
+            Get Started
+          </Text>
+        </Button>
       </Animated.View>
     </SafeAreaView>
   );
