@@ -28,7 +28,7 @@ export default function Login() {
     setError({});
     setLoading(true);
     try {
-      const res = await loginUser(email, password);
+      const res = await loginUser(email.toLowerCase(), password);
       if (!res?.error) {
         storeData({ key: "token", value: res.token });
         router.push("/(auth)/verify");

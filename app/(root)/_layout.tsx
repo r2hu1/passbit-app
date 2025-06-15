@@ -7,6 +7,7 @@ import {
 } from "react-native-safe-area-context";
 import { useAuthState } from "~/hooks/use-auth-state";
 import { useTheme } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
 
 export default function Layout() {
   const { user, loading, status } = useAuthState();
@@ -25,26 +26,17 @@ export default function Layout() {
       <Tabs
         screenOptions={{
           headerShown: false,
+          tabBarShowLabel: false,
           tabBarStyle: {
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            elevation: 0,
-            shadowOpacity: 1,
-            height: 110,
-            paddingTop: 10,
-            opacity: 0.9,
-            borderWidth: 0,
-            borderTopWidth: 1,
-            borderEndWidth: 1,
-            borderStartWidth: 1,
-            borderColor: !dark ? "hsl(240 5.9% 90%)" : "hsl(240 3.7% 15.9%)",
             backgroundColor: !dark
               ? "hsl(240 4.8% 95.9%)"
               : "hsl(240 3.7% 15.9%)",
-          },
-          tabBarLabelStyle: {
-            fontSize: 9,
-            fontFamily: "Rubik-Regular",
+            borderTopColor: !dark
+              ? "hsl(240 3.7% 95.9%)"
+              : "hsl(240 4.8% 15.9%)",
+            borderTopWidth: 1,
+            position: "absolute",
+            minHeight: 100,
           },
         }}
       >
